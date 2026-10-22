@@ -652,7 +652,13 @@ hr {
   margin-bottom: 2px !important;
 }
 
-
+#profile-card,
+.card-body,
+.card-header,
+.card-header img {
+  border-radius: 0 !important;
+  overflow: visible !important; /* はみ出し防止の丸めも解除するよ */
+}
 
 /* 免責事項（カード最下部） */
 .card-disclaimer {
