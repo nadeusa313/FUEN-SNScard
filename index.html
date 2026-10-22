@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>風燕伝フレンド募集カード</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- 画面を画像として保存するためのライブラリ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+<!-- 左側：入力パネル -->
+    <div class="control-panel">
+      <h2>風燕伝フレンド募集カード</h2>
+      
+      <div class="form-group">
+        <label>キャラクター名</label>
+        <input type="text" id="input-name" placeholder="キャラクター名">
+      </div>
+
+      <div class="form-group">
+        <label>ID<span class="input-note">（文字も入力できます）</span></label>
+        <input type="text" id="input-game-id" placeholder="0000000000">
+      </div>
+
+      <!-- 年齢グループ -->
+      <div class="form-group" id="age-group">
+        <label>年齢 <span class="input-note">（一つのみ選択・非公開を選ぶと非表示になります）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="成人">成人</button>
+          <button type="button" class="tag-btn" data-value="未成年">未成年</button>
+          <button type="button" class="tag-btn" data-value="非公開">非公開</button>
+        </div>
+      </div>
+
+      <!-- 性別グループ -->
+      <div class="form-group" id="gender-group">
+        <label>性別<span class="input-note">（一つのみ選択・非公開を選ぶと非表示になります）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="男性">男性</button>
+          <button type="button" class="tag-btn" data-value="女性">女性</button>
+          <button type="button" class="tag-btn" data-value="非公開">非公開</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="sect-group">
+        <label>流派<span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="無所属">無所属</button>
+          <button type="button" class="tag-btn" data-value="天泉">天泉</button>
+          <button type="button" class="tag-btn" data-value="梨園">梨園</button>
+          <button type="button" class="tag-btn" data-value="狂瀾">狂瀾</button>
+          <button type="button" class="tag-btn" data-value="青渓">青渓</button>
+          <button type="button" class="tag-btn" data-value="三更天">三更天</button>
+          <button type="button" class="tag-btn" data-value="文津館">文津館</button>
+          <button type="button" class="tag-btn" data-value="九流門">九流門</button>
+          <button type="button" class="tag-btn" data-value="酔花陰">酔花陰</button>
+          <button type="button" class="tag-btn" data-value="墨山道">墨山道</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="ryugi-group">
+        <label>流儀<span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="鋼鳴・虹">鋼鳴・虹</button>
+          <button type="button" class="tag-btn" data-value="砕岩・鈞">砕岩・鈞</button>
+          <button type="button" class="tag-btn" data-value="糸操・玉">糸操・玉</button>
+          <button type="button" class="tag-btn" data-value="瞬嵐・風">瞬嵐・風</button>
+          <button type="button" class="tag-btn" data-value="鋼鳴・影">鋼鳴・影</button>
+          <button type="button" class="tag-btn" data-value="砕岩・威">砕岩・威</button>
+          <button type="button" class="tag-btn" data-value="糸操・霖">糸操・霖</button>
+          <button type="button" class="tag-btn" data-value="瞬嵐・塵">瞬嵐・塵</button>
+          <button type="button" class="tag-btn" data-value="瞬嵐・鳶">瞬嵐・鳶</button>
+          <button type="button" class="tag-btn" data-value="糸操・翔">糸操・翔</button>
+          <button type="button" class="tag-btn" data-value="瞬嵐・樽">瞬嵐・樽</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group" id="recruitment-group">
+        <label>募集<span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="相互フォロー">相互フォロー</button>
+          <button type="button" class="tag-btn" data-value="ゲーム内フレンド">ゲーム内フレンド</button>
+          <button type="button" class="tag-btn" data-value="同盟員募集">同盟員募集</button>
+          <button type="button" class="tag-btn" data-value="絆募集">絆募集</button>
+          <button type="button" class="tag-btn" data-value="師匠募集">師匠募集</button>
+          <button type="button" class="tag-btn" data-value="弟子募集">弟子募集</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="recruitment-group2">
+        <label></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="マルチで遊ぼう">マルチで遊ぼう</button>
+          <button type="button" class="tag-btn" data-value="撮影で遊ぼう">撮影で遊ぼう</button>
+          <button type="button" class="tag-btn" data-value="同性プレイヤー優先">同性プレイヤー優先</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group" id="platform-group">
+        <label>プレイ環境<span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="PC">PC</button>
+          <button type="button" class="tag-btn" data-value="PS">PS</button>
+          <button type="button" class="tag-btn" data-value="モバイル">モバイル</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="playtime-group">
+  <label>プレイ時間帯 <span class="input-note">（複数選択可）</span></label>
+  <div class="playtime-grid">
+    <!-- 平日 -->
+    <div class="playtime-row">
+      <span class="row-label">平日</span>
+      <div class="tag-selector">
+        <button type="button" class="tag-btn" data-value="平日:早朝">早朝</button>
+        <button type="button" class="tag-btn" data-value="平日:午前">午前</button>
+        <button type="button" class="tag-btn" data-value="平日:午後">午後</button>
+        <button type="button" class="tag-btn" data-value="平日:夜"> 夜 </button>
+        <button type="button" class="tag-btn" data-value="平日:深夜">深夜</button>
+      </div>
+    </div>
+    <!-- 週末 -->
+    <div class="playtime-row">
+      <span class="row-label">週末</span>
+      <div class="tag-selector">
+        <button type="button" class="tag-btn" data-value="週末:早朝">早朝</button>
+        <button type="button" class="tag-btn" data-value="週末:午前">午前</button>
+        <button type="button" class="tag-btn" data-value="週末:午後">午後</button>
+        <button type="button" class="tag-btn" data-value="週末:夜"> 夜 </button>
+        <button type="button" class="tag-btn" data-value="週末:深夜">深夜</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="form-group" id="favorite-group">
+        <label>好きなコンテンツ<span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="ストーリー">ストーリー</button>
+          <button type="button" class="tag-btn" data-value="侠境">侠境</button>
+          <button type="button" class="tag-btn" data-value="試剣">試剣</button>
+          <button type="button" class="tag-btn" data-value="論剣">論剣</button>
+          <button type="button" class="tag-btn" data-value="衆知">衆知</button>
+          <button type="button" class="tag-btn" data-value="演武">演武</button>
+          <button type="button" class="tag-btn" data-value="修羅の林">修羅の林</button>
+          <button type="button" class="tag-btn" data-value="家業">家業</button>
+          <button type="button" class="tag-btn" data-value="ミニゲーム">ミニゲーム</button>
+          <button type="button" class="tag-btn" data-value="SS・撮影">SS・撮影</button>
+          <button type="button" class="tag-btn" data-value="衣装コーデ">衣装コーデ</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="weapon-group">
+        <label>武器<span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="剣">剣</button>
+          <button type="button" class="tag-btn" data-value="槍">槍</button>
+          <button type="button" class="tag-btn" data-value="扇">扇</button>
+          <button type="button" class="tag-btn" data-value="斬馬刀">斬馬刀</button>
+          <button type="button" class="tag-btn" data-value="双剣">双剣</button>
+          <button type="button" class="tag-btn" data-value="傘">傘</button>
+          <button type="button" class="tag-btn" data-value="縄鏢">縄鏢</button>
+          <button type="button" class="tag-btn" data-value="横刀">横刀</button>
+          <button type="button" class="tag-btn" data-value="手甲">手甲</button>
+          <button type="button" class="tag-btn" data-value="舞綾鼓">舞綾鼓</button>
+        </div>
+      </div>
+
+      <div class="form-group" id="tendency-group">
+        <label>ツイート傾向 <span class="input-note">（複数選択可）</span></label>
+        <div class="tag-selector">
+          <button type="button" class="tag-btn active" data-value="RT">RT</button>
+          <button type="button" class="tag-btn" data-value="いいね">いいね</button>
+          <button type="button" class="tag-btn" data-value="日常">日常</button>
+          <button type="button" class="tag-btn" data-value="TL会話">TL会話</button>
+          <button type="button" class="tag-btn" data-value="引用">引用</button>
+          <button type="button" class="tag-btn" data-value="閲覧・購読">閲覧・購読</button>
+          <button type="button" class="tag-btn" data-value="愚痴・呟き">愚痴・呟き</button>
+          <button type="button" class="tag-btn" data-value="文章">文章</button>
+          <button type="button" class="tag-btn" data-value="イラスト">イラスト</button>
+          <button type="button" class="tag-btn" data-value="スクショ">スクショ</button>
+          <button type="button" class="tag-btn" data-value="動画">動画</button>
+          <button type="button" class="tag-btn" data-value="攻略">攻略</button>
+          <button type="button" class="tag-btn" data-value="ストーリー">ストーリー</button>
+          <button type="button" class="tag-btn" data-value="ゲーム内キャラ創作">ゲーム内キャラ創作</button>
+          <button type="button" class="tag-btn" data-value="自キャラ創作">自キャラ創作</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group">
+        <label>ヘッダー画像変更</label>
+        <input type="file" id="input-image" accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label>その他<span class="input-note">（未入力時カードには項目が非表示になります）</span></label>
+        <textarea id="input-message" placeholder="メッセージを入力" rows="3"></textarea>
+      </div>
+
+     
+    </div>
+<!-- 右側：カードプレビューパネル全体 -->
+<div class="preview-panel">
+  
+  <!-- ① 画像化するカード本体（セーブボタンは中に入れない！） -->
+  <div id="profile-card" class="card-body">
+    
+    <!-- ヘッダー（背景画像 ＋ 基本情報 ＋ 流儀など） -->
+    <div class="card-header" id="card-header-bg">
+      <div class="card-overlay">
+        
+        <div class="header-left">
+          <div class="badge-row">
+            <div id="preview-sect-container" class="sect-container">
+              <span class="sect-badge">無所属</span>
+            </div>
+            <div id="preview-ryugi-container" class="ryugi-container">
+              <span class="ryugi-badge">鋼鳴・虹</span>
+            </div>
+          </div>
+
+          <!-- 名前とID -->
+          <div class="name-area">
+            <h1 id="preview-name">キャラクター名</h1>  
+            <span id="preview-game-id" class="game-id-text"></span>
+          </div>
+          
+          <!-- 年齢・性別 -->
+          <div class="user-info-row">
+            <span id="preview-age" class="info-badge">成人</span>
+            <span id="preview-gender" class="info-badge">男性</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- メインコンテンツ（各種タグ情報 ＋ ひとこと） -->
+    <div class="card-content">
+      
+      <!-- 募集目的 -->
+      <div class="info-section">
+        <h3 class="section-title">✦募集</h3>
+        <div id="preview-recruitment-container" class="tag-display-area"></div>
+      </div>
+
+      <!-- プレイ環境 -->
+      <div class="info-section">
+        <h3 class="section-title">✦プレイ環境</h3>
+        <div id="preview-platform-container" class="tag-display-area"></div>
+      </div>
+
+      <!-- プレイ時間帯（カードプレビュー側） -->
+      <div class="info-section">
+        <h3 class="section-title">✦プレイ時間帯</h3>
+        <div class="card-playtime-grid">
+          <!-- 平日 -->
+          <div class="card-playtime-row">
+            <span class="row-label">平日</span>
+            <div class="card-time-tags">
+             <span class="card-time-btn" data-time="平日:早朝">早朝</span>
+              <span class="card-time-btn" data-time="平日:午前">午前</span>
+              <span class="card-time-btn" data-time="平日:午後">午後</span>
+              <span class="card-time-btn" data-time="平日:夜"> 夜 </span>
+              <span class="card-time-btn" data-time="平日:深夜">深夜</span>
+            </div>
+          </div>
+          <!-- 週末 -->
+          <div class="card-playtime-row">
+            <span class="row-label">週末</span>
+            <div class="card-time-tags">
+              <span class="card-time-btn" data-time="週末:早朝">早朝</span>
+              <span class="card-time-btn" data-time="週末:午前">午前</span>
+              <span class="card-time-btn" data-time="週末:午後">午後</span>
+              <span class="card-time-btn" data-time="週末:夜"> 夜 </span>
+              <span class="card-time-btn" data-time="週末:深夜">深夜</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 好きなコンテンツ -->
+      <div class="info-section">
+        <h3 class="section-title">✦好きなコンテンツ</h3>
+        <div id="preview-favorite-container" class="tag-display-area"></div>
+      </div>
+
+      <!-- 武器 -->
+      <div class="info-section">
+        <h3 class="section-title">✦武器</h3>
+        <div id="preview-weapon-container" class="tag-display-area"></div>
+      </div>
+
+      <!-- ツイート傾向 -->
+      <div class="info-section">
+        <h3 class="section-title">✦ツイート傾向</h3>
+        <div id="preview-tendency-container" class="tag-display-area"></div>
+      </div>
+
+    </div>
+    <!-- 免責事項-->
+      <p class="card-disclaimer">※当カードは個人によるファンメイド作品です。</p>
+  </div>
+  <!-- /#profile-card （カード本体はここまで！） -->
+
+  <!-- ② 画像保存ボタン（カードの外側、カードの真下に配置する） -->
+  <div class="action-area">
+    <button id="save-btn" class="save-btn">カードを画像として保存</button>
+  </div>
+
+</div>
+
+ <script src="script.js"></script>
