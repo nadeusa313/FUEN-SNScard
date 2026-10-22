@@ -179,21 +179,30 @@ if (inputImage && headerImg) {
   if (saveBtn && previewCard) {
     saveBtn.addEventListener('click', () => {
       const headerImg = document.getElementById('card-header-img');
-      const isEmptyImg = !headerImg.getAttribute('src');
+      const isEmptyImg = !headerImg || !headerImg.getAttribute('src');
 
-      // 画像が未選択のときは一時的に非表示にしてエラーを回避
-      if (isEmptyImg) headerImg.style.display = 'none';
-
-      html2canvas(previewCard, { useCORS: true, scale: 3 }).then(canvas => {
-        if (isEmptyImg) headerImg.style.display = '';
+      if (isEmptyImg && headerImg) {
+        headerImg.style.display = 'none';
+      }
+      html2canvas(previewCard, { 
+        useCORS: true, 
+        allowTaint: true, 
+        scale: 3 
+      }).then(canvas => {
+        if (isEmptyImg && headerImg) {
+          headerImg.style.display = '';
+        }
 
         const link = document.createElement('a');
         link.download = 'character-card.png'; 
         link.href = canvas.toDataURL('image/png');
         link.click();
       }).catch(err => {
-        if (isEmptyImg) headerImg.style.display = '';
+        if (isEmptyImg && headerImg) {
+          headerImg.style.display = '';
+        }
         console.error('画像の保存に失敗しました:', err);
+        alert('画像の保存に失敗しました。');
       });
     });
   }
