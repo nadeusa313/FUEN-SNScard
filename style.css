@@ -201,10 +201,8 @@ hr {
   width: 100%;
   max-width: 550px;
   background: #f5f5f5;
-  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 1px solid #2c2c2c;
   box-sizing: border-box;
 }
 
