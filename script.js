@@ -179,21 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (saveBtn && previewCard) {
     saveBtn.addEventListener('click', () => {
-      html2canvas(previewCard, { useCORS: true, scale: 2 }).then(canvas => {
-        // ★ 保存する画像の横幅を指定（お好みで 500 や 600 に変えてね）
-        const targetWidth = 600; 
-        const scaleFactor = targetWidth / canvas.width;
-        
-        const resizedCanvas = document.createElement('canvas');
-        resizedCanvas.width = targetWidth;
-        resizedCanvas.height = canvas.height * scaleFactor;
-        
-        const ctx = resizedCanvas.getContext('2d');
-        ctx.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
-
+      // 画面の見た目のバランスのまま、高画質（2倍または3倍）で保存する
+      html2canvas(previewCard, { useCORS: true, scale: 3 }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'character-card.png'; 
-        link.href = resizedCanvas.toDataURL('image/png');
+        link.href = canvas.toDataURL('image/png'); // そのまま出力
         link.click();
       }).catch(err => {
         console.error('画像の保存に失敗しました:', err);
