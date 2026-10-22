@@ -172,21 +172,28 @@ if (inputImage && headerImg) {
   });
 }
 
-// --- 5. カードを画像で保存する機能 ---
+// --- カードを画像で保存する機能 ---
   const saveBtn = document.getElementById('save-btn'); 
   const previewCard = document.getElementById('profile-card'); 
 
   if (saveBtn && previewCard) {
     saveBtn.addEventListener('click', () => {
-      // 画面の見た目のバランスのまま、高画質（2倍または3倍）で保存する
-      html2canvas(previewCard, { useCORS: true, scale: 5 }).then(canvas => {
+      const headerImg = document.getElementById('card-header-img');
+      const isEmptyImg = !headerImg.getAttribute('src');
+
+      // 画像が未選択のときは一時的に非表示にしてエラーを回避
+      if (isEmptyImg) headerImg.style.display = 'none';
+
+      html2canvas(previewCard, { useCORS: true, scale: 3 }).then(canvas => {
+        if (isEmptyImg) headerImg.style.display = '';
+
         const link = document.createElement('a');
         link.download = 'character-card.png'; 
-        link.href = canvas.toDataURL('image/png'); // そのまま出力
+        link.href = canvas.toDataURL('image/png');
         link.click();
       }).catch(err => {
+        if (isEmptyImg) headerImg.style.display = '';
         console.error('画像の保存に失敗しました:', err);
       });
     });
   }
-});
