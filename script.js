@@ -173,21 +173,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 5. カードを画像で保存する機能 ---
+// --- 5. カードを画像で保存する機能 ---
   const saveBtn = document.getElementById('save-btn'); 
   const previewCard = document.getElementById('profile-card'); 
 
   if (saveBtn && previewCard) {
     saveBtn.addEventListener('click', () => {
       html2canvas(previewCard, { useCORS: true, scale: 2 }).then(canvas => {
+        // ★ 保存する画像の横幅を指定（お好みで 500 や 600 に変えてね）
+        const targetWidth = 600; 
+        const scaleFactor = targetWidth / canvas.width;
+        
+        const resizedCanvas = document.createElement('canvas');
+        resizedCanvas.width = targetWidth;
+        resizedCanvas.height = canvas.height * scaleFactor;
+        
+        const ctx = resizedCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
         const link = document.createElement('a');
         link.download = 'character-card.png'; 
-        link.href = canvas.toDataURL('image/png');
+        link.href = resizedCanvas.toDataURL('image/png');
         link.click();
       }).catch(err => {
         console.error('画像の保存に失敗しました:', err);
       });
     });
   }
-
 });
