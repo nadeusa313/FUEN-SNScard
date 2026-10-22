@@ -179,8 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (saveBtn && previewCard) {
     saveBtn.addEventListener('click', () => {
-      // 画面の見た目のバランスのまま、高画質（2倍または3倍）で保存する
-      html2canvas(previewCard, { useCORS: true, scale: 5 }).then(canvas => {
+      html2canvas(previewCard, { useCORS: true, scale: 10 }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'character-card.png'; 
         link.href = canvas.toDataURL('image/png'); // そのまま出力
