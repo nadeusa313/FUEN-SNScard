@@ -1342,13 +1342,18 @@ hr {
   letter-spacing: 0.03em;
 }
 
+/* ==========================================
+   スマホ画面の横揺れ・はみ出しを完全に防ぐ設定
+   ========================================== */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* 横方向のはみ出しを強制カット！ */
+}
 
-/* 免責事項（カード最下部） */
-.card-disclaimer {
-  font-size: 0.65rem;           /* 小さめの文字サイズ */
-  color: rgb(183, 183, 183); /* ふんわり薄い白文字 */
-  text-align: center;            /* 中央揃え */
-  margin-top: 15px;              /* 上との余白 */
-  margin-bottom: 5px;            /* 下の余白 */
-  letter-spacing: 0.03em;
+.app-container,
+.control-panel,
+.preview-panel,
+#profile-card {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
