@@ -209,7 +209,7 @@ hr {
 /* --- カードヘッダー --- */
 .card-header {
   position: relative;
-  min-height: 250px;
+  min-height: 450px;
   background: linear-gradient(135deg, #3b3b3b, #151515);
   background-size: cover;
   background-position: center;
