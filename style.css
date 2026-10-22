@@ -206,7 +206,6 @@ hr {
   box-sizing: border-box;
 }
 
-
 /* --- カードヘッダー --- */
 .card-header {
   position: relative;
@@ -652,6 +651,8 @@ hr {
   margin-top: 10px !important;
   margin-bottom: 2px !important;
 }
+
+
 
 /* 免責事項（カード最下部） */
 .card-disclaimer {
