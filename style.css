@@ -652,12 +652,30 @@ hr {
   margin-bottom: 2px !important;
 }
 
-#profile-card,
-.card-body,
-.card-header,
-.card-header img {
-  border-radius: 0 !important;
-  overflow: visible !important; /* はみ出し防止の丸めも解除するよ */
+/* ==========================================
+   ヘッダー画像を高画質化（img化）するための設定
+   ========================================== */
+.card-header {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 画像本体を絶対配置で背面に敷き詰める */
+.header-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 綺麗にトリミングして敷き詰める */
+  z-index: 0;
+}
+
+/* 画像が選ばれていないときはエラーアイコンを隠す */
+.header-img:not([src]), 
+.header-img[src=""], 
+.header-img[src="#"] {
+  display: none !important;
 }
 
 /* 免責事項（カード最下部） */

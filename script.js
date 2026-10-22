@@ -154,24 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 4. ヘッダー画像の変更 ---
-  const inputImage = document.getElementById('input-image');
-  const cardHeaderBg = document.getElementById('card-header-bg');
+// ヘッダー画像の変更処理
+const inputImage = document.getElementById('input-image');
+const headerImg = document.getElementById('card-header-img');
 
-  if (inputImage && cardHeaderBg) {
-    inputImage.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          cardHeaderBg.style.backgroundImage = `url(${event.target.result})`;
-          cardHeaderBg.style.backgroundSize = 'cover';
-          cardHeaderBg.style.backgroundPosition = 'center';
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
+if (inputImage && headerImg) {
+  inputImage.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        // imgタグのsrcに直接画像データをセットする
+        headerImg.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
 
 // --- 5. カードを画像で保存する機能 ---
   const saveBtn = document.getElementById('save-btn'); 
@@ -179,7 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (saveBtn && previewCard) {
     saveBtn.addEventListener('click', () => {
-      html2canvas(previewCard, { useCORS: true, scale: 10 }).then(canvas => {
+      // 画面の見た目のバランスのまま、高画質（2倍または3倍）で保存する
+      html2canvas(previewCard, { useCORS: true, scale: 5 }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'character-card.png'; 
         link.href = canvas.toDataURL('image/png'); // そのまま出力
