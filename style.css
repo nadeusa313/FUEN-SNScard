@@ -573,6 +573,87 @@ hr {
   border-color: rgba(95, 128, 128, 0.6);
   color: #b0bec5;
 }
+
+/* ==========================================
+   カード全体の文字サイズ・余白のコンパクト化（追加用）
+   ========================================== */
+
+/* カード本文の余白と隙間を狭める */
+.card-content {
+  padding: 16px !important;
+  gap: 12px !important;
+}
+
+/* ヘッダー部分の重なり・余白を調整 */
+.card-overlay {
+  padding: 16px !important;
+}
+
+.header-left {
+  gap: 4px !important;
+}
+
+/* キャラクター名を二回り小さく */
+.name-area h1 {
+  font-size: 1.1rem !important;
+}
+
+/* ゲームIDやユーザー情報の文字を小さく */
+.game-id-text {
+  font-size: 0.75rem !important;
+  margin-top: 0px !important;
+}
+
+.user-info-row {
+  margin-top: 0px !important;
+  gap: 4px !important;
+}
+
+.info-badge {
+  font-size: 0.7rem !important;
+  padding: 1px 6px !important;
+}
+
+/* セクションタイトルを小さく＆余白を詰める */
+.card-body .section-title {
+  font-size: 0.72rem !important;
+  margin-bottom: 0px !important;
+}
+
+.info-section {
+  gap: 4px !important;
+}
+
+/* タグ類の文字サイズと余白をコンパクトに */
+.card-tag,
+.recruitment-tag {
+  font-size: 0.72rem !important;
+  padding: 3px 8px !important;
+}
+
+.sect-badge,
+.ryugi-badge {
+  font-size: 0.7rem !important;
+  padding: 2px 8px !important;
+}
+
+/* プレイ時間帯の文字と余白を小さく */
+.card-playtime-row .row-label {
+  font-size: 0.72rem !important;
+}
+
+.card-time-btn {
+  font-size: 0.72rem !important;
+  padding: 3px 8px !important;
+}
+
+/* 最下部の免責事項をコンパクトに */
+.card-disclaimer {
+  font-size: 0.55rem !important;
+  margin-top: 10px !important;
+  margin-bottom: 2px !important;
+}
+
 /* 免責事項（カード最下部） */
 .card-disclaimer {
   font-size: 0.65rem;           /* 小さめの文字サイズ */
