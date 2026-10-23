@@ -592,12 +592,8 @@ hr {
     overflow-x: hidden !important;
   }
 
-  /* カードやパネルを囲む親コンテナ、および各要素の幅・マージンを強制リセット */
-  div, 
-  section, 
-  main,
-  .container,
-  .wrapper,
+  /* 親コンテナ（.app-container）や各要素の幅・マージンを強制リセット */
+  .app-container,
   .control-panel,
   #profile-card,
   .card-body,
@@ -608,6 +604,10 @@ hr {
     min-width: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     box-sizing: border-box !important;
+    align-items: stretch !important; /* 中央寄せを解除して幅いっぱいに広げる */
   }
+}
 }
