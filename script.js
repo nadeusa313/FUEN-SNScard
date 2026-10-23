@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// ヘッダー画像の変更処理（ヘッダー比率に完全一致させてトリミングし、<img>で保持する）
+// ヘッダー画像の変更処理（CSSの比率 460:500 に完全に合わせて中央トリミングする）
 const inputImage = document.getElementById('input-image');
 const headerImg = document.getElementById('card-header-img');
 
@@ -169,23 +169,23 @@ if (inputImage && headerImg) {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         
-        // ヘッダーの比率（460 : 420）に合わせた高解像度サイズ（920 × 840）
+        // CSSの比率（460:500）に合わせた高解像度サイズ（920 × 1000）
         const targetWidth = 920;
-        const targetHeight = 840;
+        const targetHeight = 1000;
         
         canvas.width = targetWidth;
         canvas.height = targetHeight;
         const ctx = canvas.getContext('2d');
 
-        // 中央トリミング（cover）の計算
         const imgAspect = img.width / img.height;
-        const targetAspect = targetWidth / targetHeight;
+        const targetAspect = targetWidth / targetHeight; // 920 / 1000 = 0.92
 
         let sourceX = 0;
         let sourceY = 0;
         let sourceWidth = img.width;
         let sourceHeight = img.height;
 
+        // 長方形の比率に合わせて中央から綺麗に切り抜く計算
         if (imgAspect > targetAspect) {
           sourceWidth = img.height * targetAspect;
           sourceX = (img.width - sourceWidth) / 2;
@@ -194,10 +194,12 @@ if (inputImage && headerImg) {
           sourceY = (img.height - sourceHeight) / 2;
         }
 
-        // キャンバスに綺麗に切り抜いて描画
-        ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, targetWidth, targetHeight);
+        ctx.drawImage(
+          img,
+          sourceX, sourceY, sourceWidth, sourceHeight, 
+          0, 0, targetWidth, targetHeight
+        );
 
-        // imgタグのsrcにセットする（すでに比率がぴったり合っているので潰れません）
         headerImg.src = canvas.toDataURL('image/jpeg', 0.92);
       };
       img.src = event.target.result;
