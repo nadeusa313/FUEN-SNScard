@@ -221,10 +221,8 @@ hr {
 /* --- カードヘッダー --- */
 .card-header {
   position: relative !important;
-  min-height: 420px;
+  height: 420px; /* ★ 高さをしっかり固定する */
   background: linear-gradient(135deg, #3b3b3b, #151515);
-  background-size: cover;
-  background-position: center;
   overflow: hidden !important;
 }
 
@@ -234,7 +232,8 @@ hr {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;     /* ★ 縦横比を保ったまま枠を埋め、はみ出た部分は中央を基準にカットする */
+  object-position: center; /* ★ 常に画像の「真ん中」を表示する */
   z-index: 0;
 }
 

@@ -161,14 +161,34 @@ const headerImg = document.getElementById('card-header-img');
 if (inputImage && headerImg) {
   inputImage.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        // imgタグのsrcに直接画像データをセットする
-        headerImg.src = event.target.result;
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // 画質を保ったまま、大きすぎる画像を自動で最大幅1200pxにリサイズ
+        const MAX_WIDTH = 1200;
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // 軽くなった画像データをプレビューにセット
+        headerImg.src = canvas.toDataURL('image/jpeg', 0.85);
       };
-      reader.readAsDataURL(file);
-    }
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
   });
 }
 
