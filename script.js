@@ -154,12 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// ヘッダー画像の変更処理（自動で中央トリミングして保存時の圧縮を防ぐ）
-// ヘッダー画像の変更処理（実際の表示サイズに完全に比例させて切り抜く）
+// ヘッダー画像の変更処理（背景画像としてセットし、保存時の圧縮を完全に防ぐ）
 const inputImage = document.getElementById('input-image');
-const headerImg = document.getElementById('card-header-img');
+const cardHeader = document.querySelector('.card-header');
 
-if (inputImage && headerImg) {
+if (inputImage && cardHeader) {
   inputImage.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -170,7 +169,7 @@ if (inputImage && headerImg) {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         
-        // 画面上のヘッダー表示比率（幅460px : 高さ420px）の「2倍高画質サイズ」に設定
+        // 高画質な比率サイズ
         const targetWidth = 920;
         const targetHeight = 840;
         
@@ -178,7 +177,6 @@ if (inputImage && headerImg) {
         canvas.height = targetHeight;
         const ctx = canvas.getContext('2d');
 
-        // 正確な比率計算
         const imgAspect = img.width / img.height;
         const targetAspect = targetWidth / targetHeight;
 
@@ -187,26 +185,19 @@ if (inputImage && headerImg) {
         let sourceWidth = img.width;
         let sourceHeight = img.height;
 
-        // 元画像から「切り抜く範囲（source）」を決定する（歪みを絶対に出さない計算）
         if (imgAspect > targetAspect) {
-          // 画像が横長の場合：左右をカット
           sourceWidth = img.height * targetAspect;
           sourceX = (img.width - sourceWidth) / 2;
         } else {
-          // 画像が縦長の場合：上下をカット
           sourceHeight = img.width / targetAspect;
           sourceY = (img.height - sourceHeight) / 2;
         }
 
-        // 元画像の central 部分だけを切り抜いて targetCanvas に描画
-        ctx.drawImage(
-          img,
-          sourceX, sourceY, sourceWidth, sourceHeight, // 切り抜き元（元画像）
-          0, 0, targetWidth, targetHeight              // 描画先（Canvas）
-        );
+        ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, targetWidth, targetHeight);
 
-        // トリミング済みの画像データをセット
-        headerImg.src = canvas.toDataURL('image/jpeg', 0.92);
+        // imgタグではなく、CSSの背景画像として直接セットする
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        cardHeader.style.backgroundImage = `linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${dataUrl})`;
       };
       img.src = event.target.result;
     };
@@ -214,40 +205,25 @@ if (inputImage && headerImg) {
   });
 }
 
-// --- カードを画像で保存する機能 ---
-  const saveBtn = document.getElementById('save-btn'); 
-  const previewCard = document.getElementById('profile-card'); 
+// --- カードを画像で保存する機能（背景画像対応版・スッキリ版） ---
+const saveBtn = document.getElementById('save-btn'); 
+const previewCard = document.getElementById('profile-card'); 
 
-  if (saveBtn && previewCard) {
-    saveBtn.addEventListener('click', () => {
-      const headerImg = document.getElementById('card-header-img');
-      const isEmptyImg = !headerImg || !headerImg.getAttribute('src');
-
-      if (isEmptyImg && headerImg) {
-        headerImg.style.display = 'none';
-      }
-
-      // scale を 2 に変更してスマホの画像描画歪みを防ぐ
-      html2canvas(previewCard, { 
-        useCORS: true, 
-        scale: 2,
-        logging: false
-      }).then(canvas => {
-        if (isEmptyImg && headerImg) {
-          headerImg.style.display = '';
-        }
-
-        const link = document.createElement('a');
-        link.download = 'character-card.png'; 
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      }).catch(err => {
-        if (isEmptyImg && headerImg) {
-          headerImg.style.display = '';
-        }
-        console.error('画像の保存に失敗しました:', err);
-        alert('画像の保存に失敗しました。');
-      });
+if (saveBtn && previewCard) {
+  saveBtn.addEventListener('click', () => {
+    html2canvas(previewCard, { 
+      useCORS: true, 
+      scale: 2,
+      logging: false
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'character-card.png'; 
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(err => {
+      console.error('画像の保存に失敗しました:', err);
+      alert('画像の保存に失敗しました。');
     });
-  }
+  });
+}
 });
