@@ -221,8 +221,11 @@ hr {
 /* --- カードヘッダー --- */
 .card-header {
   position: relative !important;
-  height: 420px; /* ★ 高さをしっかり固定する */
+  width: 100%;
+  aspect-ratio: 460 / 420; /* ★ 幅と高さの比率を常に一定に固定し、スマホでも絶対に歪ませない */
   background: linear-gradient(135deg, #3b3b3b, #151515);
+  background-size: cover;
+  background-position: center;
   overflow: hidden !important;
 }
 
