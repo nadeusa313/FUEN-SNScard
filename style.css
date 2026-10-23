@@ -580,16 +580,24 @@ hr {
   box-sizing: border-box !important;
 }
 
-/* ② スマホ（画面幅が狭いとき）：画面幅いっぱいに広げる ＆ 横揺れ防止 */
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 460px) {
+  /* 画面全体の余白をゼロにして、ズレの要因を消す */
   body {
-    padding: 8px !important; /* スマホでの端っこのわずかな余白 */
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
+  /* すべてのボックスの左右マージンと最大幅を完全にリセットする */
   .control-panel,
   #profile-card,
   .card-body,
-  .action-area {
-    max-width: 100% !important; /* スマホでは限界まで広げる */
+  .action-area,
+  .preview-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    left: 0 !important;
+    transform: none !important;
   }
 }
