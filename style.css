@@ -78,8 +78,10 @@ body {
 }
 
 .control-panel input[type="text"] {
+  -webkit-appearance: none; /* スマホ特有のデザインをリセット */
+  appearance: none;
   width: 100% !important;
-  padding: 10px 12px !important; 
+  padding: 10px 12px !important;
   box-sizing: border-box !important;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -174,9 +176,11 @@ hr {
 
 /* 入力用テキストエリア */
 .control-panel textarea {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100% !important;
   box-sizing: border-box !important;
-  padding: 10px;
+  padding: 10px 12px !important;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: #fff;
