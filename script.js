@@ -18,30 +18,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 // --- メッセージの連動（未入力時はセクションごと非表示） ---
-  const inputMessage = document.getElementById('input-message');
-  const previewMessage = document.getElementById('preview-message');
-  const messageSection = previewMessage ? previewMessage.closest('.message-section') : null;
+const inputMessage = document.getElementById('input-message');
+const previewMessage = document.getElementById('preview-message');
+// .message-section または .info-section のどちらのクラス名であっても確実に親要素を取得する
+const messageSection = previewMessage ? (previewMessage.closest('.message-section') || previewMessage.closest('.info-section')) : null;
 
-  if (inputMessage && previewMessage) {
-    inputMessage.addEventListener('input', () => {
-      const val = inputMessage.value.trim();
-      
-      if (val !== '') {
-        previewMessage.textContent = val;
-        if (messageSection) messageSection.style.display = ''; // 入力があるときは表示
-      } else {
-        previewMessage.textContent = '';
-        if (messageSection) {
-          messageSection.style.display = 'none'; // 💡 入力がないときは見出しごと非表示
-        }
+if (inputMessage && previewMessage) {
+  inputMessage.addEventListener('input', () => {
+    const val = inputMessage.value.trim();
+    
+    if (val !== '') {
+      previewMessage.textContent = val;
+      if (messageSection) messageSection.style.display = ''; // 入力があるときは表示
+    } else {
+      previewMessage.textContent = '';
+      if (messageSection) {
+        messageSection.style.display = 'none'; // 入力がないときは見出しごと非表示
       }
-    });
-
-    // ページを開いた初期状態（空のとき）にも隠しておく
-    if (inputMessage.value.trim() === '' && messageSection) {
-      messageSection.style.display = 'none';
     }
+  });
+
+  // ページを開いた初期状態（空のとき）にも隠しておく
+  if (inputMessage.value.trim() === '' && messageSection) {
+    messageSection.style.display = 'none';
   }
+}
 
   // --- 2. 単一選択タグ（年齢・性別など 1つだけ選ぶ項目） ---
   function setupSingleSelect(groupId, previewId) {
