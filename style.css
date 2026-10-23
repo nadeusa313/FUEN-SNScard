@@ -511,3 +511,12 @@ hr {
 .sect-badge[data-value="九流門"] { background: rgba(34, 111, 84, 0.35); border-color: rgba(46, 139, 87, 0.6); color: #81c784; }
 .sect-badge[data-value="酔花陰"] { background: rgba(107, 142, 35, 0.3); border-color: rgba(154, 205, 50, 0.5); color: #c5e1a5; }
 .sect-badge[data-value="墨山道"] { background: rgba(47, 79, 79, 0.4); border-color: rgba(95, 128, 128, 0.6); color: #b0bec5; }
+
+/* ==========================================
+   入力ボックスの余白を強制的に死守する設定
+   ========================================== */
+.control-panel input[type="text"],
+.control-panel textarea {
+  padding: 10px 14px !important;
+  box-sizing: border-box !important;
+}
