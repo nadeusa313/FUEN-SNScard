@@ -1357,3 +1357,35 @@ html, body {
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
+
+/* ==========================================
+   スマホで見たときに文字や入力欄を大きくする調整
+   ========================================== */
+@media screen and (max-width: 768px) {
+  /* 入力項目のラベルを大きく */
+  .form-group label {
+    font-size: 1rem !important;
+  }
+
+  .form-group label .input-note {
+    font-size: 0.8rem !important;
+  }
+
+  /* 入力欄（テキストボックス・エリア）を大きく */
+  .control-panel input[type="text"],
+  .control-panel textarea {
+    font-size: 1rem !important;
+    padding: 12px !important;
+  }
+
+  /* 選択ボタンを大きくして押しやすく */
+  .tag-btn {
+    font-size: 0.9rem !important;
+    padding: 8px 14px !important;
+  }
+
+  /* プレイ時間帯などのラベル文字 */
+  .playtime-row .row-label {
+    font-size: 0.9rem !important;
+  }
+}
