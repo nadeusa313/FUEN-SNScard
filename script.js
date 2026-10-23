@@ -172,7 +172,7 @@ if (inputImage && headerImg) {
   });
 }
 
-// --- カードを画像で保存する機能（エラー防止対策版） ---
+// --- カードを画像で保存する機能 ---
   const saveBtn = document.getElementById('save-btn'); 
   const previewCard = document.getElementById('profile-card'); 
 
@@ -185,11 +185,10 @@ if (inputImage && headerImg) {
         headerImg.style.display = 'none';
       }
 
-      // scaleを「2」にしてメモリ負担を減らし、確実に保存できるようにする
+      // ★ allowTaint: true を削除し、useCORS: true のみにする
       html2canvas(previewCard, { 
         useCORS: true, 
-        scale: 2,
-        logging: false
+        scale: 3 
       }).then(canvas => {
         if (isEmptyImg && headerImg) {
           headerImg.style.display = '';
@@ -204,7 +203,7 @@ if (inputImage && headerImg) {
           headerImg.style.display = '';
         }
         console.error('画像の保存に失敗しました:', err);
-        alert('画像の保存に失敗しました。少し軽めの画像でお試しください。');
+        alert('画像の保存に失敗しました。');
       });
     });
   }
