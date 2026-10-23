@@ -577,7 +577,7 @@ hr {
 }
 
 /* ② スマホ（画面幅が狭いとき）：画面幅いっぱいに広げる ＆ 横揺れ防止 */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 300px) {
   body {
     padding: 8px !important; /* スマホでの端っこのわずかな余白 */
   }
