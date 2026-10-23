@@ -154,11 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// ヘッダー画像の変更処理（背景画像としてセットし、保存時の圧縮を完全に防ぐ）
+// ヘッダー画像の変更処理（ヘッダー比率に完全一致させてトリミングし、<img>で保持する）
 const inputImage = document.getElementById('input-image');
-const cardHeader = document.querySelector('.card-header');
+const headerImg = document.getElementById('card-header-img');
 
-if (inputImage && cardHeader) {
+if (inputImage && headerImg) {
   inputImage.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -169,7 +169,7 @@ if (inputImage && cardHeader) {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         
-        // 高画質な比率サイズ
+        // ヘッダーの比率（460 : 420）に合わせた高解像度サイズ（920 × 840）
         const targetWidth = 920;
         const targetHeight = 840;
         
@@ -177,6 +177,7 @@ if (inputImage && cardHeader) {
         canvas.height = targetHeight;
         const ctx = canvas.getContext('2d');
 
+        // 中央トリミング（cover）の計算
         const imgAspect = img.width / img.height;
         const targetAspect = targetWidth / targetHeight;
 
@@ -193,11 +194,11 @@ if (inputImage && cardHeader) {
           sourceY = (img.height - sourceHeight) / 2;
         }
 
+        // キャンバスに綺麗に切り抜いて描画
         ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, targetWidth, targetHeight);
 
-        // imgタグではなく、CSSの背景画像として直接セットする
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
-        cardHeader.style.backgroundImage = `linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${dataUrl})`;
+        // imgタグのsrcにセットする（すでに比率がぴったり合っているので潰れません）
+        headerImg.src = canvas.toDataURL('image/jpeg', 0.92);
       };
       img.src = event.target.result;
     };
