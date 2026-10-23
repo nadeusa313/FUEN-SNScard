@@ -1,43 +1,30 @@
-/* ==========================================
-   横揺れ完全防止 ＆ 幅の調整
-   ========================================== */
-
-/* 画面全体の横スクロールを強制的に封じる */
+/* ==================================================
+   ベーススタイル & 全体レイアウト（横揺れ防止対応）
+================================================== */
 html, body {
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100%;
+  max-width: 100%;
+  background: #121212;
+  color: #333;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
   overflow-x: hidden !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
+  touch-action: manipulation;
 }
 
-body {
-  padding: 12px !important; /* スマホでの端の余白 */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-/* すべての主要ボックスが画面からはみ出さないようにする */
-.control-panel,
-#profile-card,
-.card-body,
-.action-area,
-.preview-panel {
-  width: 100% !important;
-  max-width: 440px !important; /* PCではこの幅を死守 */
-  margin-left: auto !important;
-  margin-right: auto !important;
-  box-sizing: border-box !important;
-}
-
-/* スマホの画面幅が狭いときは限界まで幅を合わせる */
-@media screen and (max-width: 460px) {
-  .control-panel,
-  #profile-card,
-  .card-body,
-  .action-area {
-    max-width: 100% !important;
-  }
-}
 /* ==================================================
    1. 入力パネル（コントロールパネル）
 ================================================== */
@@ -402,7 +389,7 @@ hr {
   color: #888888;
   border: 1px solid #3a3a3a;
   transition: all 0.2s ease;
-  opacity: 0.2; /* ★ ここを追加して薄くする（0.3〜0.5あたりでお好みで調整してね） */
+  opacity: 0.3; /* ★ ここを追加して薄くする（0.3〜0.5あたりでお好みで調整してね） */
 }
 
 /* 選択中（アクティブ）のとき：透明度を戻してくっきり見せる */
