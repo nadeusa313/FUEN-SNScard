@@ -184,9 +184,10 @@ if (inputImage && headerImg) {
       if (isEmptyImg && headerImg) {
         headerImg.style.display = 'none';
       }
+
+      // ★ allowTaint: true を削除し、useCORS: true のみにする
       html2canvas(previewCard, { 
         useCORS: true, 
-        allowTaint: true, 
         scale: 3 
       }).then(canvas => {
         if (isEmptyImg && headerImg) {
