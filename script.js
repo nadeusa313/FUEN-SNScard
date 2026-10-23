@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// ヘッダー画像の変更処理
+// ヘッダー画像の変更処理（自動で中央トリミングして保存時の圧縮を防ぐ）
 const inputImage = document.getElementById('input-image');
 const headerImg = document.getElementById('card-header-img');
 
@@ -168,30 +168,46 @@ if (inputImage && headerImg) {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
+        
+        // ヘッダーの縦横比（例：幅920px、高さ840pxの高解像度で綺麗に切り抜く）
+        const targetWidth = 920;
+        const targetHeight = 840;
+        
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        const ctx = canvas.getContext('2d');
 
-        // 画質を保ったまま、大きすぎる画像を自動で最大幅1200pxにリサイズ
-        const MAX_WIDTH = 1200;
-        if (width > MAX_WIDTH) {
-          height = Math.round((height * MAX_WIDTH) / width);
-          width = MAX_WIDTH;
+        // object-fit: cover と同じ「中央切り抜き（crop）」の計算
+        const imgAspect = img.width / img.height;
+        const targetAspect = targetWidth / targetHeight;
+
+        let renderWidth, renderHeight, offsetX, offsetY;
+
+        if (imgAspect > targetAspect) {
+          // 画像が横長の場合：高さを合わせて左右を切り落とす
+          renderHeight = targetHeight;
+          renderWidth = img.width * (targetHeight / img.height);
+          offsetX = (targetWidth - renderWidth) / 2;
+          offsetY = 0;
+        } else {
+          // 画像が縦長の場合：幅を合わせて上下を切り落としたり、中央を合わせる
+          renderWidth = targetWidth;
+          renderHeight = img.height * (targetWidth / img.width);
+          offsetX = 0;
+          offsetY = (targetHeight - renderHeight) / 2;
         }
 
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
+        // キャンバスに綺麗にトリミングして描画
+        ctx.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
 
-        // 軽くなった画像データをプレビューにセット
-        headerImg.src = canvas.toDataURL('image/jpeg', 0.85);
+        // トリミング済みの画像データをプレビューにセット
+        headerImg.src = canvas.toDataURL('image/jpeg', 0.9);
       };
       img.src = event.target.result;
     };
     reader.readAsDataURL(file);
   });
 }
-
 // --- カードを画像で保存する機能 ---
   const saveBtn = document.getElementById('save-btn'); 
   const previewCard = document.getElementById('profile-card'); 
