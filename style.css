@@ -1,12 +1,16 @@
 /* ==================================================
-   ベーススタイル & 全体レイアウト
+   ベーススタイル & 全体レイアウト（横揺れ防止対応）
 ================================================== */
-body {
+html, body {
+  width: 100%;
+  max-width: 100%;
   background: #121212;
   color: #333;
   font-family: sans-serif;
   margin: 0;
   padding: 20px;
+  overflow-x: hidden !important;
+  touch-action: manipulation;
 }
 
 .app-container {
@@ -14,29 +18,16 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  max-width: 600px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* ==================================================
    1. 入力パネル（コントロールパネル）
 ================================================== */
-
-.form-group label .input-note {
-  font-size: 0.75rem;    /* 小さい文字にする */
-  font-weight: normal;   /* 太字を解除する */
-  color: #666;           /* 控えめなグレーにする */
-  margin-left: 6px;      /* 項目名との間に隙間を空ける */
-}
-
-/* 入力項目の見出し（ラベル）に縦のアクセントラインを入れる */
-.form-group label {
-  border-left: 3.5px solid #daa520; /* 縦のラインの太さと金色系の色 */
-  padding-left: 8px;                /* ラインと文字の間のすき間 */
-  line-height: 1.2;                 /* 文字の縦位置のバランス調整 */
-  margin-bottom: 6px;               /* 下の入力欄との余白 */
-}
-
 .control-panel {
   width: 100%;
   max-width: 550px;
@@ -64,8 +55,18 @@ body {
   display: block;
   font-size: 0.9rem;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: #333;
+  border-left: 3.5px solid #daa520;
+  padding-left: 8px;
+  line-height: 1.2;
+}
+
+.form-group label .input-note {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: #666;
+  margin-left: 6px;
 }
 
 .control-panel input[type="text"] {
@@ -129,7 +130,7 @@ hr {
   margin: 16px 0;
 }
 
-/* --- 入力側のプレイ時間帯レイアウト --- */
+/* 入力側のプレイ時間帯レイアウト */
 .playtime-grid {
   display: flex;
   flex-direction: column;
@@ -146,7 +147,7 @@ hr {
 .playtime-row .row-label {
   font-size: 0.85rem;
   font-weight: bold;
-  color: #333; /* 入力欄の文字色に合わせてね */
+  color: #333;
   width: 36px;
   flex-shrink: 0;
 }
@@ -157,13 +158,11 @@ hr {
   flex-wrap: wrap;
 }
 
-/* 入力側の選択中ボタンの色 */
 #playtime-group .tag-btn.active {
-  background: #00ced1; /* カード側と合わせた青緑色 */
+  background: #00ced1;
   color: #ffffff;
   border-color: #00ceb9;
 }
-
 
 /* 入力用テキストエリア */
 .control-panel textarea {
@@ -208,1184 +207,385 @@ hr {
 
 /* --- カードヘッダー --- */
 .card-header {
-  position: relative;
+  position: relative !important;
   min-height: 450px;
   background: linear-gradient(135deg, #3b3b3b, #151515);
   background-size: cover;
   background-position: center;
+  overflow: hidden !important;
 }
 
-.card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* 下側に寄せる */
-  align-items: flex-start;
-}
-
-/* ヘッダー内の要素群（重なりを防ぐため縦並びで綺麗に積む） */
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-.badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-  width: 100%;
-}
-
-.sect-container,
-.ryugi-container {
-  display: flex;
-  gap: 6px;
-}
-
-.sect-badge {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(4px);
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.ryugi-badge {
-  background: rgba(194, 58, 58, 0.2);
-  backdrop-filter: blur(4px);
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.name-area h1 {
-  font-size: 1.6rem;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  margin: 0;
-}
-
-.game-id-text {
-  font-size: 0.85rem;
-  color: #ddd;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-  display: block;
-  margin-top: 2px;
-}
-
-.user-info-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 2px;
-}
-
-.info-badge {
-  background: rgba(0, 0, 0, 0.5);
-  color: #bbb;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-}
-
-/* --- カードメインコンテンツ --- */
-
-/* 募集タグ専用のデザイン（金色系） */
-.recruitment-tag {
-  background: #daa520;
-  color: #fbfbfb;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  border: 1px solid rgba(218, 165, 32, 0.4); /* 金色の枠線 */
-}
-
-/* プレビューカード用のプレイ時間帯レイアウト */
-.card-playtime-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.card-playtime-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.card-playtime-row .row-label {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #888; /* カードの背景に合わせて見やすい色に調整してね */
-  width: 36px;
-  flex-shrink: 0;
-}
-
-.card-time-tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-/* 通常（未選択） */
-.card-time-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  background: #2b2b2b;
-  color: #888888;
-  border: 1px solid #3a3a3a;
-  transition: all 0.2s ease;
-}
-
-/* 選択時 */
-.card-time-btn.active {
-  background: #2b2b2b; 
-  color: #ffffff;
-  border-color: #3a3a3a;
-}
-
-.card-content {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.section-title {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #888;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 2px;
-  margin: 0;
-}
-
-.tag-display-area {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 24px;
-}
-
-.card-tag {
-  background: #2a2a2a;
-  color: #e0e0e0;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  border: 1px solid #3a3a3a;
-}
-
-/* プレビュー側のメッセージテキスト（入力欄のスタイルを引き継がない） */
-.message-text {
-  font-size: 0.9rem;
-  color: #333;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  background: transparent;
-  padding: 0;
-  border: none;
-  margin: 0;
-}
-
-/* ==================================================
-   3. 保存ボタンエリア
-================================================== */
-.action-area {
-  width: 100%;
-  max-width: 550px;
-}
-
-.save-btn {
-  width: 100%;
-  background: #00ced1;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.save-btn:hover {
-  background: #20b2aa;
-}
-
-/* ==========================================
-   流儀バッジ（半透明ベース + 派閥グループカラー）
-   ========================================== */
-
-/* 共通の半透明デザイン（基本ベース） */
-.ryugi-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #dddddd;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-}
-
-/* ✦ ネイビー系（鋼鳴：虹、影） */
-.ryugi-badge[data-value="鋼鳴・虹"],
-.ryugi-badge[data-value="鋼鳴・影"] {
-  background: rgba(20, 35, 60, 0.4);       /* 深いネイビーの半透明 */
-  border-color: rgba(90, 140, 210, 0.5);    /* スチールブルーのフチ */
-  color: #82b1ff;                          /* 澄んだ青の文字 */
-}
-
-/* ✦ ボルドー系（砕岩：鈞、威） */
-.ryugi-badge[data-value="砕岩・鈞"],
-.ryugi-badge[data-value="砕岩・威"] {
-  background: rgba(60, 15, 25, 0.4);       /* 深いボルドーの半透明 */
-  border-color: rgba(190, 70, 90, 0.5);     /* ワインレッドのフチ */
-  color: #ff8a80;                          /* 華やかな浅い赤の文字 */
-}
-
-/* ✦ グリーン系（糸操：玉、霖、翔） */
-.ryugi-badge[data-value="糸操・玉"],
-.ryugi-badge[data-value="糸操・霖"],
-.ryugi-badge[data-value="糸操・翔"] {
-  background: rgba(15, 45, 30, 0.4);       /* 深い深緑の半透明 */
-  border-color: rgba(70, 160, 110, 0.5);    /* エメラルドグリーンのフチ */
-  color: #b9f6ca;                          /* 爽やかなミントグリーンの文字 */
-}
-
-/* ✦ 紫系（瞬嵐：風、塵、鳶、樽） */
-.ryugi-badge[data-value="瞬嵐・風"],
-.ryugi-badge[data-value="瞬嵐・塵"],
-.ryugi-badge[data-value="瞬嵐・鳶"],
-.ryugi-badge[data-value="瞬嵐・樽"] {
-  background: rgba(45, 20, 55, 0.4);       /* 深いダークパープルの半透明 */
-  border-color: rgba(150, 90, 200, 0.5);   /* 妖艶なバイオレットのフチ */
-  color: #ea80fc;                          /* 鮮やかなライトパープルの文字 */
-}
-
-/* ==========================================
-   流派バッジ（半透明ベース + 流派個別カラー）
-   ========================================== */
-
-/* 共通の半透明デザイン（基本ベース） */
-.sect-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #dddddd;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-}
-
-/* ✦ 無所属（ノーマルな白系） */
-.sect-badge[data-value="無所属"] {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-
-/* ✦ 天泉（#4682B4 スチールブルー） */
-.sect-badge[data-value="天泉"] {
-  background: rgba(70, 130, 180, 0.3);
-  border-color: rgba(70, 130, 180, 0.6);
-  color: #92c5eb;
-}
-
-/* ✦ 梨園（淡いオレンジ・桃の表面のようなやわらかい色） */
-.sect-badge[data-value="梨園"] {
-  background: rgba(244, 164, 96, 0.25);
-  border-color: rgba(255, 183, 140, 0.5);
-  color: #ffccb3;
-}
-
-/* ✦ 狂瀾（ちょっとピンク寄りの鮮やかな赤） */
-.sect-badge[data-value="狂瀾"] {
-  background: rgba(219, 68, 85, 0.3);
-  border-color: rgba(240, 98, 115, 0.6);
-  color: #ff8fa3;
-}
-
-/* ✦ 青渓（澄んだ青緑色） */
-.sect-badge[data-value="青渓"] {
-  background: rgba(0, 168, 150, 0.3);
-  border-color: rgba(64, 224, 208, 0.5);
-  color: #80e5d9;
-}
-
-/* ✦ 三更天（彼岸花のような絶妙な赤・深すぎず華やかな色あい） */
-.sect-badge[data-value="三更天"] {
-  background: rgba(114, 6, 8, 0.35);
-  border-color: rgba(229, 56, 59, 0.6);
-  color: #fc8888;
-}
-
-/* ✦ 文津館（#5F9EA0 カドミウムブルー系） */
-.sect-badge[data-value="文津館"] {
-  background: rgba(95, 158, 160, 0.3);
-  border-color: rgba(95, 158, 160, 0.6);
-  color: #a8dadc;
-}
-
-/* ✦ 九流門（ちょっと濃い深みのある緑） */
-.sect-badge[data-value="九流門"] {
-  background: rgba(34, 111, 84, 0.35);
-  border-color: rgba(46, 139, 87, 0.6);
-  color: #81c784;
-}
-
-/* ✦ 酔花陰（九流門より黄みがかったオリーブ系） */
-.sect-badge[data-value="酔花陰"] {
-  background: rgba(107, 142, 35, 0.3);
-  border-color: rgba(154, 205, 50, 0.5);
-  color: #c5e1a5;
-}
-
-/* ✦ 墨山道（#2F4F4F シックなダークスレートグレー系） */
-.sect-badge[data-value="墨山道"] {
-  background: rgba(47, 79, 79, 0.4);
-  border-color: rgba(95, 128, 128, 0.6);
-  color: #b0bec5;
-}
-
-/* ==========================================
-   カード全体の文字サイズ・余白のコンパクト化（追加用）
-   ========================================== */
-
-/* カード本文の余白と隙間を狭める */
-.card-content {
-  padding: 16px !important;
-  gap: 12px !important;
-}
-
-/* ヘッダー部分の重なり・余白を調整 */
-.card-overlay {
-  padding: 16px !important;
-}
-
-.header-left {
-  gap: 4px !important;
-}
-
-/* キャラクター名を二回り小さく */
-.name-area h1 {
-  font-size: 1.1rem !important;
-}
-
-/* ゲームIDやユーザー情報の文字を小さく */
-.game-id-text {
-  font-size: 0.75rem !important;
-  margin-top: 0px !important;
-}
-
-.user-info-row {
-  margin-top: 0px !important;
-  gap: 4px !important;
-}
-
-.info-badge {
-  font-size: 0.7rem !important;
-  padding: 1px 6px !important;
-}
-
-/* セクションタイトルを小さく＆余白を詰める */
-.card-body .section-title {
-  font-size: 0.72rem !important;
-  margin-bottom: 0px !important;
-}
-
-.info-section {
-  gap: 4px !important;
-}
-
-/* タグ類の文字サイズと余白をコンパクトに */
-.card-tag,
-.recruitment-tag {
-  font-size: 0.72rem !important;
-  padding: 3px 8px !important;
-}
-
-.sect-badge,
-.ryugi-badge {
-  font-size: 0.7rem !important;
-  padding: 2px 8px !important;
-}
-
-/* プレイ時間帯の文字と余白を小さく */
-.card-playtime-row .row-label {
-  font-size: 0.72rem !important;
-}
-
-.card-time-btn {
-  font-size: 0.72rem !important;
-  padding: 3px 8px !important;
-}
-
-/* 最下部の免責事項をコンパクトに */
-.card-disclaimer {
-  font-size: 0.55rem !important;
-  margin-top: 10px !important;
-  margin-bottom: 2px !important;
-}
-
-/* ==================================================
-   ベーススタイル & 全体レイアウト
-================================================== */
-body {
-  background: #121212;
-  color: #333;
-  font-family: sans-serif;
-  margin: 0;
-  padding: 20px;
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* ==================================================
-   1. 入力パネル（コントロールパネル）
-================================================== */
-
-.form-group label .input-note {
-  font-size: 0.75rem;    /* 小さい文字にする */
-  font-weight: normal;   /* 太字を解除する */
-  color: #666;           /* 控えめなグレーにする */
-  margin-left: 6px;      /* 項目名との間に隙間を空ける */
-}
-
-/* 入力項目の見出し（ラベル）に縦のアクセントラインを入れる */
-.form-group label {
-  border-left: 3.5px solid #daa520; /* 縦のラインの太さと金色系の色 */
-  padding-left: 8px;                /* ラインと文字の間のすき間 */
-  line-height: 1.2;                 /* 文字の縦位置のバランス調整 */
-  margin-bottom: 6px;               /* 下の入力欄との余白 */
-}
-
-.control-panel {
-  width: 100%;
-  max-width: 550px;
-  background: #f5f5f5;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-}
-
-.control-panel h2 {
-  font-size: 1.4rem;
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #313131;
-  border-bottom: 2px solid #333;
-  padding-bottom: 8px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.control-panel input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: #fff;
-  color: #333;
-  font-size: 0.95rem;
-}
-
-.control-panel input[type="text"]:focus {
-  outline: none;
-  border-color: #00ced1;
-}
-
-.control-panel input[type="file"] {
-  width: 100%;
-  background: transparent;
-  border: none;
-  padding: 0;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-/* タグ選択ボタン */
-.tag-selector {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag-btn {
-  background: #2b2b2b;
-  color: #ccc;
-  border: 1px solid #444;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tag-btn:hover {
-  background: #3a3a3a;
-  color: #fff;
-}
-
-.tag-btn.active {
-  background: #00ced1;
-  color: #fff;
-  border-color: #20b2aa;
-}
-
-hr {
-  border: none;
-  height: 1px;
-  background-color: #ddd;
-  margin: 16px 0;
-}
-
-/* --- 入力側のプレイ時間帯レイアウト --- */
-.playtime-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.playtime-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.playtime-row .row-label {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #333; /* 入力欄の文字色に合わせてね */
-  width: 36px;
-  flex-shrink: 0;
-}
-
-.playtime-row .tag-selector {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-/* 入力側の選択中ボタンの色 */
-#playtime-group .tag-btn.active {
-  background: #00ced1; /* カード側と合わせた青緑色 */
-  color: #ffffff;
-  border-color: #00ceb9;
-}
-
-
-/* 入力用テキストエリア */
-.control-panel textarea {
-  width: 100% !important;
-  box-sizing: border-box !important;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
-  color: #333;
-  font-size: 0.95rem;
-  resize: none;
-  font-family: inherit;
-  margin: 0 !important;
-  display: block !important;
-}
-
-.control-panel textarea:focus {
-  outline: none;
-  border-color: #00ced1;
-}
-
-/* ==================================================
-   2. プレビューパネル & カード本体
-================================================== */
-.preview-panel {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.card-body {
-  width: 100%;
-  max-width: 550px;
-  background: #f5f5f5;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-}
-
-/* --- カードヘッダー --- */
-.card-header {
-  position: relative;
-  min-height: 450px;
-  background: linear-gradient(135deg, #3b3b3b, #151515);
-  background-size: cover;
-  background-position: center;
-}
-
-.card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* 下側に寄せる */
-  align-items: flex-start;
-}
-
-/* ヘッダー内の要素群（重なりを防ぐため縦並びで綺麗に積む） */
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-.badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-  width: 100%;
-}
-
-.sect-container,
-.ryugi-container {
-  display: flex;
-  gap: 6px;
-}
-
-.sect-badge {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(4px);
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.ryugi-badge {
-  background: rgba(194, 58, 58, 0.2);
-  backdrop-filter: blur(4px);
-  color: #fff;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.name-area h1 {
-  font-size: 1.6rem;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  margin: 0;
-}
-
-.game-id-text {
-  font-size: 0.85rem;
-  color: #ddd;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-  display: block;
-  margin-top: 2px;
-}
-
-.user-info-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 2px;
-}
-
-.info-badge {
-  background: rgba(0, 0, 0, 0.5);
-  color: #bbb;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-}
-
-/* --- カードメインコンテンツ --- */
-
-/* 募集タグ専用のデザイン（金色系） */
-.recruitment-tag {
-  background: #daa520;
-  color: #fbfbfb;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  border: 1px solid rgba(218, 165, 32, 0.4); /* 金色の枠線 */
-}
-
-/* プレビューカード用のプレイ時間帯レイアウト */
-.card-playtime-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.card-playtime-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.card-playtime-row .row-label {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #888; /* カードの背景に合わせて見やすい色に調整してね */
-  width: 36px;
-  flex-shrink: 0;
-}
-
-.card-time-tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-/* 通常（未選択） */
-.card-time-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  background: #2b2b2b;
-  color: #888888;
-  border: 1px solid #3a3a3a;
-  transition: all 0.2s ease;
-}
-
-/* 選択時 */
-.card-time-btn.active {
-  background: #2b2b2b; 
-  color: #ffffff;
-  border-color: #3a3a3a;
-}
-
-.card-content {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.section-title {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #888;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 2px;
-  margin: 0;
-}
-
-.tag-display-area {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 24px;
-}
-
-.card-tag {
-  background: #2a2a2a;
-  color: #e0e0e0;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  border: 1px solid #3a3a3a;
-}
-
-/* プレビュー側のメッセージテキスト（入力欄のスタイルを引き継がない） */
-.message-text {
-  font-size: 0.9rem;
-  color: #333;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  background: transparent;
-  padding: 0;
-  border: none;
-  margin: 0;
-}
-
-/* ==================================================
-   3. 保存ボタンエリア
-================================================== */
-.action-area {
-  width: 100%;
-  max-width: 550px;
-}
-
-.save-btn {
-  width: 100%;
-  background: #00ced1;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.save-btn:hover {
-  background: #20b2aa;
-}
-
-/* ==========================================
-   流儀バッジ（半透明ベース + 派閥グループカラー）
-   ========================================== */
-
-/* 共通の半透明デザイン（基本ベース） */
-.ryugi-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #dddddd;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-}
-
-/* ✦ ネイビー系（鋼鳴：虹、影） */
-.ryugi-badge[data-value="鋼鳴・虹"],
-.ryugi-badge[data-value="鋼鳴・影"] {
-  background: rgba(20, 35, 60, 0.4);       /* 深いネイビーの半透明 */
-  border-color: rgba(90, 140, 210, 0.5);    /* スチールブルーのフチ */
-  color: #82b1ff;                          /* 澄んだ青の文字 */
-}
-
-/* ✦ ボルドー系（砕岩：鈞、威） */
-.ryugi-badge[data-value="砕岩・鈞"],
-.ryugi-badge[data-value="砕岩・威"] {
-  background: rgba(60, 15, 25, 0.4);       /* 深いボルドーの半透明 */
-  border-color: rgba(190, 70, 90, 0.5);     /* ワインレッドのフチ */
-  color: #ff8a80;                          /* 華やかな浅い赤の文字 */
-}
-
-/* ✦ グリーン系（糸操：玉、霖、翔） */
-.ryugi-badge[data-value="糸操・玉"],
-.ryugi-badge[data-value="糸操・霖"],
-.ryugi-badge[data-value="糸操・翔"] {
-  background: rgba(15, 45, 30, 0.4);       /* 深い深緑の半透明 */
-  border-color: rgba(70, 160, 110, 0.5);    /* エメラルドグリーンのフチ */
-  color: #b9f6ca;                          /* 爽やかなミントグリーンの文字 */
-}
-
-/* ✦ 紫系（瞬嵐：風、塵、鳶、樽） */
-.ryugi-badge[data-value="瞬嵐・風"],
-.ryugi-badge[data-value="瞬嵐・塵"],
-.ryugi-badge[data-value="瞬嵐・鳶"],
-.ryugi-badge[data-value="瞬嵐・樽"] {
-  background: rgba(45, 20, 55, 0.4);       /* 深いダークパープルの半透明 */
-  border-color: rgba(150, 90, 200, 0.5);   /* 妖艶なバイオレットのフチ */
-  color: #ea80fc;                          /* 鮮やかなライトパープルの文字 */
-}
-
-/* ==========================================
-   流派バッジ（半透明ベース + 流派個別カラー）
-   ========================================== */
-
-/* 共通の半透明デザイン（基本ベース） */
-.sect-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #dddddd;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-}
-
-/* ✦ 無所属（ノーマルな白系） */
-.sect-badge[data-value="無所属"] {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-
-/* ✦ 天泉（#4682B4 スチールブルー） */
-.sect-badge[data-value="天泉"] {
-  background: rgba(70, 130, 180, 0.3);
-  border-color: rgba(70, 130, 180, 0.6);
-  color: #92c5eb;
-}
-
-/* ✦ 梨園（淡いオレンジ・桃の表面のようなやわらかい色） */
-.sect-badge[data-value="梨園"] {
-  background: rgba(244, 164, 96, 0.25);
-  border-color: rgba(255, 183, 140, 0.5);
-  color: #ffccb3;
-}
-
-/* ✦ 狂瀾（ちょっとピンク寄りの鮮やかな赤） */
-.sect-badge[data-value="狂瀾"] {
-  background: rgba(219, 68, 85, 0.3);
-  border-color: rgba(240, 98, 115, 0.6);
-  color: #ff8fa3;
-}
-
-/* ✦ 青渓（澄んだ青緑色） */
-.sect-badge[data-value="青渓"] {
-  background: rgba(0, 168, 150, 0.3);
-  border-color: rgba(64, 224, 208, 0.5);
-  color: #80e5d9;
-}
-
-/* ✦ 三更天（彼岸花のような絶妙な赤・深すぎず華やかな色あい） */
-.sect-badge[data-value="三更天"] {
-  background: rgba(114, 6, 8, 0.35);
-  border-color: rgba(229, 56, 59, 0.6);
-  color: #fc8888;
-}
-
-/* ✦ 文津館（#5F9EA0 カドミウムブルー系） */
-.sect-badge[data-value="文津館"] {
-  background: rgba(95, 158, 160, 0.3);
-  border-color: rgba(95, 158, 160, 0.6);
-  color: #a8dadc;
-}
-
-/* ✦ 九流門（ちょっと濃い深みのある緑） */
-.sect-badge[data-value="九流門"] {
-  background: rgba(34, 111, 84, 0.35);
-  border-color: rgba(46, 139, 87, 0.6);
-  color: #81c784;
-}
-
-/* ✦ 酔花陰（九流門より黄みがかったオリーブ系） */
-.sect-badge[data-value="酔花陰"] {
-  background: rgba(107, 142, 35, 0.3);
-  border-color: rgba(154, 205, 50, 0.5);
-  color: #c5e1a5;
-}
-
-/* ✦ 墨山道（#2F4F4F シックなダークスレートグレー系） */
-.sect-badge[data-value="墨山道"] {
-  background: rgba(47, 79, 79, 0.4);
-  border-color: rgba(95, 128, 128, 0.6);
-  color: #b0bec5;
-}
-
-/* ==========================================
-   カード全体の文字サイズ・余白のコンパクト化（追加用）
-   ========================================== */
-
-/* カード本文の余白と隙間を狭める */
-.card-content {
-  padding: 16px !important;
-  gap: 12px !important;
-}
-
-/* ヘッダー部分の重なり・余白を調整 */
-.card-overlay {
-  padding: 16px !important;
-}
-
-.header-left {
-  gap: 4px !important;
-}
-
-/* キャラクター名を二回り小さく */
-.name-area h1 {
-  font-size: 1.1rem !important;
-}
-
-/* ゲームIDやユーザー情報の文字を小さく */
-.game-id-text {
-  font-size: 0.75rem !important;
-  margin-top: 0px !important;
-}
-
-.user-info-row {
-  margin-top: 0px !important;
-  gap: 4px !important;
-}
-
-.info-badge {
-  font-size: 0.7rem !important;
-  padding: 1px 6px !important;
-}
-
-/* セクションタイトルを小さく＆余白を詰める */
-.card-body .section-title {
-  font-size: 0.72rem !important;
-  margin-bottom: 0px !important;
-}
-
-.info-section {
-  gap: 4px !important;
-}
-
-/* タグ類の文字サイズと余白をコンパクトに */
-.card-tag,
-.recruitment-tag {
-  font-size: 0.72rem !important;
-  padding: 3px 8px !important;
-}
-
-.sect-badge,
-.ryugi-badge {
-  font-size: 0.7rem !important;
-  padding: 2px 8px !important;
-}
-
-/* プレイ時間帯の文字と余白を小さく */
-.card-playtime-row .row-label {
-  font-size: 0.72rem !important;
-}
-
-.card-time-btn {
-  font-size: 0.72rem !important;
-  padding: 3px 8px !important;
-}
-
-/* 最下部の免責事項をコンパクトに */
-.card-disclaimer {
-  font-size: 0.55rem !important;
-  margin-top: 10px !important;
-  margin-bottom: 2px !important;
-}
-
-/* ==========================================
-   ヘッダー画像を高画質化（img化）するための設定
-   ========================================== */
-.card-header {
-  position: relative;
-  overflow: hidden;
-}
-
-/* 画像本体を絶対配置で背面に敷き詰める */
+/* ヘッダー画像（高画質化・トリミング対応） */
 .header-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 綺麗にトリミングして敷き詰める */
+  object-fit: cover;
   z-index: 0;
 }
 
-/* 画像が選ばれていないときはエラーアイコンを隠す */
+/* 画像未選択時はエラーアイコンを完全に隠す */
 .header-img:not([src]), 
 .header-img[src=""], 
 .header-img[src="#"] {
   display: none !important;
 }
 
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 16px !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  z-index: 1;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px !important;
+  width: 100%;
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.sect-container,
+.ryugi-container {
+  display: flex;
+  gap: 6px;
+}
+
+.name-area h1 {
+  font-size: 1.1rem !important;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+.game-id-text {
+  font-size: 0.75rem !important;
+  color: #ddd;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  display: block;
+  margin-top: 0px !important;
+}
+
+.user-info-row {
+  display: flex;
+  gap: 4px !important;
+  margin-top: 0px !important;
+}
+
+.info-badge {
+  background: rgba(0, 0, 0, 0.5);
+  color: #bbb;
+  padding: 1px 6px !important;
+  border-radius: 4px;
+  font-size: 0.7rem !important;
+}
+
+/* --- カードメインコンテンツ --- */
+.card-content {
+  padding: 16px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 12px !important;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px !important;
+}
+
+.section-title,
+.card-body .section-title {
+  font-size: 0.72rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 2px;
+  margin: 0 !important;
+}
+
+.tag-display-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 24px;
+}
+
+.card-tag {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  padding: 3px 8px !important;
+  border-radius: 6px;
+  font-size: 0.72rem !important;
+  border: 1px solid #3a3a3a;
+}
+
+/* 募集タグ専用のデザイン（金色系） */
+.recruitment-tag {
+  background: #daa520;
+  color: #fbfbfb;
+  padding: 3px 8px !important;
+  border-radius: 6px;
+  font-size: 0.72rem !important;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+}
+
+/* プレビューカード用のプレイ時間帯レイアウト */
+.card-playtime-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.card-playtime-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-playtime-row .row-label {
+  font-size: 0.72rem !important;
+  font-weight: bold;
+  color: #888;
+  width: 36px;
+  flex-shrink: 0;
+}
+
+.card-time-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.card-time-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px !important;
+  border-radius: 20px;
+  font-size: 0.72rem !important;
+  background: #2b2b2b;
+  color: #888888;
+  border: 1px solid #3a3a3a;
+  transition: all 0.2s ease;
+}
+
+.card-time-btn.active {
+  background: #2b2b2b; 
+  color: #ffffff;
+  border-color: #3a3a3a;
+}
+
+/* プレビュー側のメッセージテキスト */
+.message-text {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  background: transparent;
+  padding: 0;
+  border: none;
+  margin: 0;
+}
+
 /* 免責事項（カード最下部） */
 .card-disclaimer {
-  font-size: 0.65rem;           /* 小さめの文字サイズ */
-  color: rgb(183, 183, 183); /* ふんわり薄い白文字 */
-  text-align: center;            /* 中央揃え */
-  margin-top: 15px;              /* 上との余白 */
-  margin-bottom: 5px;            /* 下の余白 */
+  font-size: 0.55rem !important;
+  color: rgb(183, 183, 183);
+  text-align: center;
+  margin-top: 10px !important;
+  margin-bottom: 2px !important;
   letter-spacing: 0.03em;
 }
 
-/* ==========================================
-   スマホ画面の横揺れ・はみ出しを完全に防ぐ設定
-   ========================================== */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden; /* 横方向のはみ出しを強制カット！ */
+/* ==================================================
+   3. 保存ボタンエリア
+================================================== */
+.action-area {
+  width: 100%;
+  max-width: 550px;
 }
 
-.app-container,
+.save-btn {
+  width: 100%;
+  background: #00ced1;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.save-btn:hover {
+  background: #20b2aa;
+}
+
+/* ==========================================
+   流儀バッジ（半透明ベース + 派閥グループカラー）
+   ========================================== */
+.ryugi-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #dddddd;
+  padding: 2px 8px !important;
+  border-radius: 4px;
+  font-size: 0.7rem !important;
+  transition: all 0.2s ease;
+}
+
+.ryugi-badge[data-value="鋼鳴・虹"],
+.ryugi-badge[data-value="鋼鳴・影"] {
+  background: rgba(20, 35, 60, 0.4);
+  border-color: rgba(90, 140, 210, 0.5);
+  color: #82b1ff;
+}
+
+.ryugi-badge[data-value="砕岩・鈞"],
+.ryugi-badge[data-value="砕岩・威"] {
+  background: rgba(60, 15, 25, 0.4);
+  border-color: rgba(190, 70, 90, 0.5);
+  color: #ff8a80;
+}
+
+.ryugi-badge[data-value="糸操・玉"],
+.ryugi-badge[data-value="糸操・霖"],
+.ryugi-badge[data-value="糸操・翔"] {
+  background: rgba(15, 45, 30, 0.4);
+  border-color: rgba(70, 160, 110, 0.5);
+  color: #b9f6ca;
+}
+
+.ryugi-badge[data-value="瞬嵐・風"],
+.ryugi-badge[data-value="瞬嵐・塵"],
+.ryugi-badge[data-value="瞬嵐・鳶"],
+.ryugi-badge[data-value="瞬嵐・樽"] {
+  background: rgba(45, 20, 55, 0.4);
+  border-color: rgba(150, 90, 200, 0.5);
+  color: #ea80fc;
+}
+
+/* ==========================================
+   流派バッジ（半透明ベース + 流派個別カラー）
+   ========================================== */
+.sect-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #dddddd;
+  padding: 2px 8px !important;
+  border-radius: 4px;
+  font-size: 0.7rem !important;
+  transition: all 0.2s ease;
+}
+
+.sect-badge[data-value="無所属"] {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+
+.sect-badge[data-value="天泉"] {
+  background: rgba(70, 130, 180, 0.3);
+  border-color: rgba(70, 130, 180, 0.6);
+  color: #92c5eb;
+}
+
+.sect-badge[data-value="梨園"] {
+  background: rgba(244, 164, 96, 0.25);
+  border-color: rgba(255, 183, 140, 0.5);
+  color: #ffccb3;
+}
+
+.sect-badge[data-value="狂瀾"] {
+  background: rgba(219, 68, 85, 0.3);
+  border-color: rgba(240, 98, 115, 0.6);
+  color: #ff8fa3;
+}
+
+.sect-badge[data-value="青渓"] {
+  background: rgba(0, 168, 150, 0.3);
+  border-color: rgba(64, 224, 208, 0.5);
+  color: #80e5d9;
+}
+
+.sect-badge[data-value="三更天"] {
+  background: rgba(114, 6, 8, 0.35);
+  border-color: rgba(229, 56, 59, 0.6);
+  color: #fc8888;
+}
+
+.sect-badge[data-value="文津館"] {
+  background: rgba(95, 158, 160, 0.3);
+  border-color: rgba(95, 158, 160, 0.6);
+  color: #a8dadc;
+}
+
+.sect-badge[data-value="九流門"] {
+  background: rgba(34, 111, 84, 0.35);
+  border-color: rgba(46, 139, 87, 0.6);
+  color: #81c784;
+}
+
+.sect-badge[data-value="酔花陰"] {
+  background: rgba(107, 142, 35, 0.3);
+  border-color: rgba(154, 205, 50, 0.5);
+  color: #c5e1a5;
+}
+
+.sect-badge[data-value="墨山道"] {
+  background: rgba(47, 79, 79, 0.4);
+  border-color: rgba(95, 128, 128, 0.6);
+  color: #b0bec5;
+}
+
+/* ==========================================
+   PCでは適切な幅で中央配置、スマホでは画面幅に合わせる設定
+   ========================================== */
+
+/* ① 基本（PC・タブレット向け）：横長になりすぎない丁度いい幅で中央に置く */
 .control-panel,
-.preview-panel,
-#profile-card {
-  max-width: 100% !important;
+#profile-card,
+.card-body,
+.action-area {
+  width: 100% !important;
+  max-width: 460px !important; /* PCでの見やすい最大幅 */
+  margin-left: auto !important;
+  margin-right: auto !important;
   box-sizing: border-box !important;
 }
 
-/* ==========================================
-   スマホで見たときに文字や入力欄を大きくする調整
-   ========================================== */
-@media screen and (max-width: 768px) {
-  /* 入力項目のラベルを大きく */
-  .form-group label {
-    font-size: 1rem !important;
+/* ② スマホ（画面幅が狭いとき）：画面幅いっぱいに広げる ＆ 横揺れ防止 */
+@media screen and (max-width: 500px) {
+  body {
+    padding: 8px !important; /* スマホでの端っこのわずかな余白 */
   }
 
-  .form-group label .input-note {
-    font-size: 0.8rem !important;
-  }
-
-  /* 入力欄（テキストボックス・エリア）を大きく */
-  .control-panel input[type="text"],
-  .control-panel textarea {
-    font-size: 1rem !important;
-    padding: 12px !important;
-  }
-
-  /* 選択ボタンを大きくして押しやすく */
-  .tag-btn {
-    font-size: 0.9rem !important;
-    padding: 8px 14px !important;
-  }
-
-  /* プレイ時間帯などのラベル文字 */
-  .playtime-row .row-label {
-    font-size: 0.9rem !important;
+  .control-panel,
+  #profile-card,
+  .card-body,
+  .action-area {
+    max-width: 100% !important; /* スマホでは限界まで広げる */
   }
 }
