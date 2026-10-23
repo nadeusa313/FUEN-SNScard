@@ -1,5 +1,5 @@
 /* ==================================================
-   ベーススタイル & 全体レイアウト（横揺れ防止対応）
+   ベーススタイル & 全体レイアウト（完全中央配置・横揺れ防止）
 ================================================== */
 html, body {
   width: 100%;
@@ -8,19 +8,27 @@ html, body {
   color: #333;
   font-family: sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 0;
   overflow-x: hidden !important;
   touch-action: manipulation;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+/* すべてを包む親コンテナ：常に中央に配置し、スマホでは両端に少しだけ余白を持たせる */
 .app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 24px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 460px; /* PCでもスマホでもこの幅を死守して中央に置く */
   margin: 0 auto;
+  padding: 0 16px;   /* スマホで端がピタッとくっつきすぎないようにする安全マージン */
   box-sizing: border-box;
   overflow-x: hidden;
 }
@@ -29,31 +37,31 @@ html, body {
    1. 入力パネル（コントロールパネル）
 ================================================== */
 .control-panel {
-  width: 100%;
-  max-width: 550px;
+  width: 100% !important;
+  max-width: 460px !important;
   background: #f5f5f5;
-  padding: 24px;
+  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
 }
 
 .control-panel h2 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   color: #313131;
   border-bottom: 2px solid #333;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .form-group label {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: bold;
   margin-bottom: 6px;
   color: #333;
@@ -98,16 +106,16 @@ html, body {
 .tag-selector {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .tag-btn {
   background: #2b2b2b;
   color: #ccc;
   border: 1px solid #444;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -127,7 +135,7 @@ hr {
   border: none;
   height: 1px;
   background-color: #ddd;
-  margin: 16px 0;
+  margin: 14px 0;
 }
 
 /* 入力側のプレイ時間帯レイアウト */
@@ -141,14 +149,14 @@ hr {
 .playtime-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .playtime-row .row-label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: bold;
   color: #333;
-  width: 36px;
+  width: 32px;
   flex-shrink: 0;
 }
 
@@ -190,6 +198,7 @@ hr {
 ================================================== */
 .preview-panel {
   width: 100%;
+  max-width: 460px !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -197,8 +206,8 @@ hr {
 }
 
 .card-body {
-  width: 100%;
-  max-width: 550px;
+  width: 100% !important;
+  max-width: 460px !important;
   background: #f5f5f5;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
@@ -208,14 +217,13 @@ hr {
 /* --- カードヘッダー --- */
 .card-header {
   position: relative !important;
-  min-height: 450px;
+  min-height: 420px;
   background: linear-gradient(135deg, #3b3b3b, #151515);
   background-size: cover;
   background-position: center;
   overflow: hidden !important;
 }
 
-/* ヘッダー画像（高画質化・トリミング対応） */
 .header-img {
   position: absolute;
   top: 0;
@@ -226,7 +234,6 @@ hr {
   z-index: 0;
 }
 
-/* 画像未選択時はエラーアイコンを完全に隠す */
 .header-img:not([src]), 
 .header-img[src=""], 
 .header-img[src="#"] {
@@ -339,7 +346,6 @@ hr {
   border: 1px solid #3a3a3a;
 }
 
-/* 募集タグ専用のデザイン（金色系） */
 .recruitment-tag {
   background: #daa520;
   color: #fbfbfb;
@@ -377,7 +383,6 @@ hr {
   flex-wrap: wrap;
 }
 
-/* 未選択（オフ）のとき：薄くして背景に溶け込ませる */
 .card-time-btn {
   display: inline-flex;
   align-items: center;
@@ -389,18 +394,16 @@ hr {
   color: #888888;
   border: 1px solid #3a3a3a;
   transition: all 0.2s ease;
-  opacity: 0.3; /* ★ ここを追加して薄くする（0.3〜0.5あたりでお好みで調整してね） */
+  opacity: 0.35;
 }
 
-/* 選択中（アクティブ）のとき：透明度を戻してくっきり見せる */
 .card-time-btn.active {
-  opacity: 1; /* ★ 選択中はしっかり表示する */
+  opacity: 1;
   background: #2b2b2b; 
   color: #ffffff;
   border-color: #3a3a3a;
 }
 
-/* プレビュー側のメッセージテキスト */
 .message-text {
   font-size: 0.9rem;
   color: #333;
@@ -412,7 +415,6 @@ hr {
   margin: 0;
 }
 
-/* 免責事項（カード最下部） */
 .card-disclaimer {
   font-size: 0.55rem !important;
   color: rgb(183, 183, 183);
@@ -426,8 +428,8 @@ hr {
    3. 保存ボタンエリア
 ================================================== */
 .action-area {
-  width: 100%;
-  max-width: 550px;
+  width: 100% !important;
+  max-width: 460px !important;
 }
 
 .save-btn {
@@ -448,7 +450,7 @@ hr {
 }
 
 /* ==========================================
-   流儀バッジ（半透明ベース + 派閥グループカラー）
+   流派・流儀バッジカラー
    ========================================== */
 .ryugi-badge {
   background: rgba(255, 255, 255, 0.08);
@@ -457,7 +459,6 @@ hr {
   padding: 2px 8px !important;
   border-radius: 4px;
   font-size: 0.7rem !important;
-  transition: all 0.2s ease;
 }
 
 .ryugi-badge[data-value="鋼鳴・虹"],
@@ -491,9 +492,6 @@ hr {
   color: #ea80fc;
 }
 
-/* ==========================================
-   流派バッジ（半透明ベース + 流派個別カラー）
-   ========================================== */
 .sect-badge {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -501,112 +499,15 @@ hr {
   padding: 2px 8px !important;
   border-radius: 4px;
   font-size: 0.7rem !important;
-  transition: all 0.2s ease;
 }
 
-.sect-badge[data-value="無所属"] {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-}
-
-.sect-badge[data-value="天泉"] {
-  background: rgba(70, 130, 180, 0.3);
-  border-color: rgba(70, 130, 180, 0.6);
-  color: #92c5eb;
-}
-
-.sect-badge[data-value="梨園"] {
-  background: rgba(244, 164, 96, 0.25);
-  border-color: rgba(255, 183, 140, 0.5);
-  color: #ffccb3;
-}
-
-.sect-badge[data-value="狂瀾"] {
-  background: rgba(219, 68, 85, 0.3);
-  border-color: rgba(240, 98, 115, 0.6);
-  color: #ff8fa3;
-}
-
-.sect-badge[data-value="青渓"] {
-  background: rgba(0, 168, 150, 0.3);
-  border-color: rgba(64, 224, 208, 0.5);
-  color: #80e5d9;
-}
-
-.sect-badge[data-value="三更天"] {
-  background: rgba(114, 6, 8, 0.35);
-  border-color: rgba(229, 56, 59, 0.6);
-  color: #fc8888;
-}
-
-.sect-badge[data-value="文津館"] {
-  background: rgba(95, 158, 160, 0.3);
-  border-color: rgba(95, 158, 160, 0.6);
-  color: #a8dadc;
-}
-
-.sect-badge[data-value="九流門"] {
-  background: rgba(34, 111, 84, 0.35);
-  border-color: rgba(46, 139, 87, 0.6);
-  color: #81c784;
-}
-
-.sect-badge[data-value="酔花陰"] {
-  background: rgba(107, 142, 35, 0.3);
-  border-color: rgba(154, 205, 50, 0.5);
-  color: #c5e1a5;
-}
-
-.sect-badge[data-value="墨山道"] {
-  background: rgba(47, 79, 79, 0.4);
-  border-color: rgba(95, 128, 128, 0.6);
-  color: #b0bec5;
-}
-
-/* ==========================================
-   PCでは適切な幅で中央配置、スマホでは画面幅に合わせる設定
-   ========================================== */
-
-/* ① 基本（PC・タブレット向け）：横長になりすぎない丁度いい幅で中央に置く */
-.control-panel,
-#profile-card,
-.card-body,
-.action-area {
-  width: 100% !important;
-  max-width: 460px !important; /* PCでの見やすい最大幅 */
-  margin-left: auto !important;
-  margin-right: auto !important;
-  box-sizing: border-box !important;
-}
-
-/* ==========================================
-   スマホでの片寄り・隙間を完全に解消するリセット設定
-   ========================================== */
-@media screen and (max-width: 480px) {
-  /* 画面全体の余白をゼロにする */
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    overflow-x: hidden !important;
-  }
-
-  /* 親コンテナ（.app-container）や各要素の幅・マージンを強制リセット */
-  .app-container,
-  .control-panel,
-  #profile-card,
-  .card-body,
-  .action-area,
-  .preview-panel {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    box-sizing: border-box !important;
-    align-items: stretch !important; /* 中央寄せを解除して幅いっぱいに広げる */
-  }
-}
+.sect-badge[data-value="無所属"] { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.4); color: #ffffff; }
+.sect-badge[data-value="天泉"] { background: rgba(70, 130, 180, 0.3); border-color: rgba(70, 130, 180, 0.6); color: #92c5eb; }
+.sect-badge[data-value="梨園"] { background: rgba(244, 164, 96, 0.25); border-color: rgba(255, 183, 140, 0.5); color: #ffccb3; }
+.sect-badge[data-value="狂瀾"] { background: rgba(219, 68, 85, 0.3); border-color: rgba(240, 98, 115, 0.6); color: #ff8fa3; }
+.sect-badge[data-value="青渓"] { background: rgba(0, 168, 150, 0.3); border-color: rgba(64, 224, 208, 0.5); color: #80e5d9; }
+.sect-badge[data-value="三更天"] { background: rgba(114, 6, 8, 0.35); border-color: rgba(229, 56, 59, 0.6); color: #fc8888; }
+.sect-badge[data-value="文津館"] { background: rgba(95, 158, 160, 0.3); border-color: rgba(95, 158, 160, 0.6); color: #a8dadc; }
+.sect-badge[data-value="九流門"] { background: rgba(34, 111, 84, 0.35); border-color: rgba(46, 139, 87, 0.6); color: #81c784; }
+.sect-badge[data-value="酔花陰"] { background: rgba(107, 142, 35, 0.3); border-color: rgba(154, 205, 50, 0.5); color: #c5e1a5; }
+.sect-badge[data-value="墨山道"] { background: rgba(47, 79, 79, 0.4); border-color: rgba(95, 128, 128, 0.6); color: #b0bec5; }
