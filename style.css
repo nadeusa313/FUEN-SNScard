@@ -580,14 +580,24 @@ hr {
   box-sizing: border-box !important;
 }
 
-@media screen and (max-width: 460px) {
-  /* 画面全体の余白をゼロにして、ズレの要因を消す */
+/* ==========================================
+   スマホでの片寄り・隙間を完全に解消するリセット設定
+   ========================================== */
+@media screen and (max-width: 480px) {
+  /* 画面全体の余白をゼロにする */
   body {
-    padding: 0 !important;
     margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
   }
 
-  /* すべてのボックスの左右マージンと最大幅を完全にリセットする */
+  /* カードやパネルを囲む親コンテナ、および各要素の幅・マージンを強制リセット */
+  div, 
+  section, 
+  main,
+  .container,
+  .wrapper,
   .control-panel,
   #profile-card,
   .card-body,
@@ -595,9 +605,9 @@ hr {
   .preview-panel {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    left: 0 !important;
-    transform: none !important;
+    box-sizing: border-box !important;
   }
 }
